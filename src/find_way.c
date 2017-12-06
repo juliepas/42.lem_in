@@ -64,26 +64,28 @@ void				launch_ant(char **tab, t_ant **myants)
 	t_ant	*ants;
 
 	ants = *myants;
-	k = ants->j;
-	c = ants->i;
-	while (k >= ants->l)
+	ft_putchar('\n');
+	while ((ants->nb_ant - (ants->i - 1)) > 0)
 	{
-		ants->i = (tab[k + 2] == NULL) ? ants->i + 1 : ants->i;
-		ft_putchar('L');
-		ft_putnbr(c);
-		ft_putchar('-');
-		ft_putstr(tab[k + 1]);
-		ft_putchar(' ');
-		k--;
-		c++;
+		k = ants->j;
+		c = ants->i;
+		while (k >= ants->l)
+		{
+			ants->i = (tab[k + 2] == NULL) ? ants->i + 1 : ants->i;
+			ft_putchar('L');
+			ft_putnbr(c);
+			ft_putchar('-');
+			ft_putstr(tab[k + 1]);
+			ft_putchar(' ');
+			k--;
+			c++;
+		}
+		if (tab[2] != NULL)
+			ft_putchar('\n');
+		ants->j += (tab[ants->j + 2] != NULL) ? 1 : 0;
+		if ((ants->nb_ant - (ants->i - 1)) <= ants->j && tab[ants->j + 2] == NULL)
+			ants->l++;
 	}
-	if (tab[2] != NULL)
-		ft_putchar('\n');
-	ants->j += (tab[ants->j + 2] != NULL) ? 1 : 0;
-	if ((ants->nb_ant - (ants->i - 1)) <= ants->j && tab[ants->j + 2] == NULL)
-		ants->l++;
-	if ((ants->nb_ant - (ants->i - 1)) > 0)
-		launch_ant(tab, myants);
 }
 
 int					find_way(t_room **room, t_tube **tubes, t_ant **myants)
@@ -94,13 +96,22 @@ int					find_way(t_room **room, t_tube **tubes, t_ant **myants)
 	t_tube			*tmp;
 
 	if (!(start = find_start(room)))
-		return (4);
+	{
+		error_manager(4);
+		return (0);
+	}
 	add_weight(tubes, start, 1);
 	if (!(end = find_end(room)))
-		return (5);
+	{
+		error_manager(5);
+		return (0);
+	}
 	tmp = find_smallest_weight(tubes, end);
 	if (tmp == NULL || tmp->weight == 0)
-		return (1);
+	{
+		error_manager(1);
+		return (0);
+	}
 	tab = (char**)malloc(sizeof(char*) * (tmp->weight + 2));
 	tab[tmp->weight + 1] = NULL;
 	tab[tmp->weight] = ft_strdup(end);
@@ -109,5 +120,5 @@ int					find_way(t_room **room, t_tube **tubes, t_ant **myants)
 	if (tab[2] == NULL)
 		ft_putchar('\n');
 	clean_tab(tab);
-	return (6);
+	return (1);
 }

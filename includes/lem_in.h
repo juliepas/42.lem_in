@@ -42,8 +42,8 @@ typedef	struct			s_tube
 	struct s_tube		*next;
 }						t_tube;
 
-void					check_rooms(char **myroom, t_room **rooms);
-void					add_end_tubestruct(t_tube **tubes, t_room **rooms,
+int						check_rooms(char **myroom, t_room **rooms, char **line);
+int						add_end_tubestruct(t_tube **tubes, t_room **rooms,
 	char *salle1, char *salle2);
 int						find_way(t_room **room, t_tube **tubes, t_ant **myants);
 char					*find_start(t_room **rooms);
@@ -54,5 +54,9 @@ void					afficher_tubes(t_tube **tubes);
 t_room					*find_room(t_room **rooms, char *salle);
 void					clean_tab(char **tab);
 void					cleaner(t_room **rooms, t_tube **tubes, t_ant **ants);
+long int				ft_longatoi(const char *str);
+void					error_manager(int error);
+int						ft_strisdigit(char *str);
+
 
 #endif

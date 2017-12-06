@@ -59,31 +59,37 @@ void			add_start_end(char **tab, t_room **rooms, t_room **new)
 	}
 }
 
-void			check_rooms(char **tab, t_room **rooms)
+int			check_rooms(char **tab, t_room **rooms, char **line)
 {
 	t_room		*new;
-	char		*line;
 	char		*str;
 
 	new = (t_room*)malloc(sizeof(t_room));
 	ft_bzero(new, sizeof(t_room));
-	if (tab[0][0] == '#' && tab[0][1] == '#')
+	while (tab[0][0] == '#')
 	{
-		add_start_end(tab, rooms, &new);
+		if (tab[0][0] == '#' && tab[0][1] == '#')
+			add_start_end(tab, rooms, &new);
 		clean_tab(tab);
-		if (get_next_line(0, &line) == 1)
+		if (get_next_line(0, line) == 1)
 		{
-			ft_putstr(line);
+			ft_putstr(*line);
 			ft_putchar('\n');
-			tab = ft_strsplit(line, ' ');
-			ft_strdel(&line);
+			tab = ft_strsplit(*line, ' ');
+			ft_strdel(line);
 		}
 	}
-	if (tab[0] != NULL)
+	if (tab[0] != NULL && tab[1] && tab[2] && !(find_room(rooms, tab[0])) && ft_strisdigit(tab[1]) && ft_strisdigit(tab[2]))
 	{
 		str = ft_strtrim(tab[0]);
 		add_end_roomstruct(rooms, &new, str);
 		ft_strdel(&str);
 	}
+	else 
+	{
+		error_manager(3);
+		return (0);
+	}
 	clean_tab(tab);
+	return (1);
 }

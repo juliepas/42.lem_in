@@ -31,6 +31,7 @@ SRC_NAME =	$(SRCS_PATH)lem_in.c \
 			$(SRCS_PATH)add_tubes.c \
 			$(SRCS_PATH)find_way.c \
 			$(SRCS_PATH)tools.c \
+			$(SRCS_PATH)tools2.c \
 			$(SRCS_PATH)cleaner.c \
 
 
