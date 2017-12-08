@@ -42,6 +42,9 @@ typedef	struct			s_tube
 	struct s_tube		*next;
 }						t_tube;
 
+int						parse_rooms(t_room **rooms, char **line);
+void					parse_tubes(t_tube **tubes, t_room **rooms,
+	char **line);
 int						check_rooms(char **myroom, t_room **rooms, char **line);
 int						add_end_tubestruct(t_tube **tubes, t_room **rooms,
 	char *salle1, char *salle2);
@@ -57,6 +60,9 @@ void					cleaner(t_room **rooms, t_tube **tubes, t_ant **ants);
 long int				ft_longatoi(const char *str);
 void					error_manager(int error);
 int						ft_strisdigit(char *str);
-
+int						launch_gnl(char **line, int i);
+int						check_start_end(t_room **room);
+void					kill_ants(t_ant **ants);
+int						clean(char **tab, t_room *room);
 
 #endif

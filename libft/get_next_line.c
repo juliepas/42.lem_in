@@ -26,9 +26,8 @@ int				ft_create_lst(t_line **lst, int fd, char *buff, int i)
 		return (0);
 	if (!(new = (t_line*)malloc(sizeof(t_line))))
 		return (-1);
+	ft_bzero(new, sizeof(t_line));
 	new->fd = fd;
-	new->i = 0;
-	new->next = NULL;
 	new->rest = ft_strdup(&buff[j + 1]);
 	if (*lst == NULL)
 		*lst = new;

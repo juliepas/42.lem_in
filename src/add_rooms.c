@@ -16,10 +16,12 @@ void			add_end_roomstruct(t_room **rooms, t_room **new, char *roomname)
 {
 	t_room		*tmp1;
 	t_room		*tmp2;
+	char		*str;
 
 	tmp1 = *new;
 	tmp2 = *rooms;
-	tmp1->room_name = ft_strdup(roomname);
+	str = ft_strtrim(roomname);
+	tmp1->room_name = ft_strdup(str);
 	tmp1->next = NULL;
 	if (*rooms != NULL)
 	{
@@ -29,6 +31,7 @@ void			add_end_roomstruct(t_room **rooms, t_room **new, char *roomname)
 	}
 	else
 		*rooms = tmp1;
+	ft_strdel(&str);
 }
 
 void			add_start_end(char **tab, t_room **rooms, t_room **new)
@@ -59,36 +62,57 @@ void			add_start_end(char **tab, t_room **rooms, t_room **new)
 	}
 }
 
-int			check_rooms(char **tab, t_room **rooms, char **line)
+int				check_rooms(char **tab, t_room **rooms, char **line)
 {
 	t_room		*new;
-	char		*str;
 
-	new = (t_room*)malloc(sizeof(t_room));
+	if (!(new = (t_room*)malloc(sizeof(t_room))))
+		return (0);
 	ft_bzero(new, sizeof(t_room));
 	while (tab[0][0] == '#')
 	{
-		if (tab[0][0] == '#' && tab[0][1] == '#')
-			add_start_end(tab, rooms, &new);
+		add_start_end(tab, rooms, &new);
 		clean_tab(tab);
-		if (get_next_line(0, line) == 1)
+		if (!launch_gnl(line, 0))
 		{
-			ft_putstr(*line);
-			ft_putchar('\n');
-			tab = ft_strsplit(*line, ' ');
-			ft_strdel(line);
+			free(new);
+			return (0);
 		}
+		tab = ft_strsplit(*line, ' ');
+		ft_strdel(line);
 	}
-	if (tab[0] != NULL && tab[1] && tab[2] && !(find_room(rooms, tab[0])) && ft_strisdigit(tab[1]) && ft_strisdigit(tab[2]))
+	if (tab[0] == NULL || !tab[1] || !tab[2] || find_room(rooms, tab[0])
+		|| !ft_strisdigit(tab[1]) || !ft_strisdigit(tab[2]))
+		return (clean(tab, new));
+	add_end_roomstruct(rooms, &new, tab[0]);
+	clean_tab(tab);
+	return (1);
+}
+
+int				parse_rooms(t_room **rooms, char **line)
+{
+	char		**tab;
+
+	if (*line == NULL)
+		if (!launch_gnl(line, 1))
+			return (0);
+	tab = ft_strsplit(*line, ' ');
+	if (tab[0] && ((tab[1] != NULL && tab[2] != NULL && tab[3] == NULL)
+		|| tab[0][0] == '#'))
 	{
-		str = ft_strtrim(tab[0]);
-		add_end_roomstruct(rooms, &new, str);
-		ft_strdel(&str);
-	}
-	else 
-	{
-		error_manager(3);
-		return (0);
+		ft_strdel(line);
+		if (tab[0][0] == 'L' || ft_strchr(tab[0], '-'))
+		{
+			clean_tab(tab);
+			error_manager(3);
+			return (0);
+		}
+		if (tab[0][0] == '#' && tab[0][1] != '#')
+		{
+			clean_tab(tab);
+			return (parse_rooms(rooms, line));
+		}
+		return ((check_rooms(tab, rooms, line)) ? parse_rooms(rooms, line) : 0);
 	}
 	clean_tab(tab);
 	return (1);

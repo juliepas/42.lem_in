@@ -28,32 +28,34 @@ void		clean_tab(char **tab)
 
 void		clean_rooms(t_room **rooms)
 {
-	t_room *toclean;
+	t_room	*toclean;
+	t_room	*tmp;
 
+	tmp = *rooms;
 	toclean = *rooms;
 	while (toclean)
 	{
+		tmp = toclean;
 		free(toclean->room_name);
 		toclean->room_name = NULL;
 		free(toclean);
-		*rooms = NULL;
-		toclean = toclean->next;
+		toclean = tmp->next;
 	}
-	toclean = NULL;
 }
 
 void		clean_tubes(t_tube **tubes)
 {
 	t_tube	*toclean;
+	t_tube	*tmp;
 
+	tmp = *tubes;
 	toclean = *tubes;
-	while (toclean)
+	while (toclean != NULL)
 	{
+		tmp = toclean;
 		free(toclean);
-		*tubes = NULL;
-		toclean = toclean->next;
+		toclean = tmp->next;
 	}
-	toclean = NULL;
 }
 
 void		kill_ants(t_ant **ants)

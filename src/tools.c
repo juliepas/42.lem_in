@@ -12,11 +12,11 @@
 
 #include "lem_in.h"
 
-long int					ft_longatoi(const char *str)
+long int		ft_longatoi(const char *str)
 {
-	int				i;
-	int				s;
-	long int		nb;
+	int			i;
+	int			s;
+	long int	nb;
 
 	s = 1;
 	nb = 0;
@@ -38,7 +38,6 @@ long int					ft_longatoi(const char *str)
 	}
 	return (nb * s);
 }
-
 
 char			*find_start(t_room **rooms)
 {
