@@ -69,7 +69,7 @@ int				check_rooms(char **tab, t_room **rooms, char **line)
 	if (!(new = (t_room*)malloc(sizeof(t_room))))
 		return (0);
 	ft_bzero(new, sizeof(t_room));
-	while (tab[0][0] == '#')
+	while (tab[0] && tab[0][0] == '#')
 	{
 		add_start_end(tab, rooms, &new);
 		clean_tab(tab);
