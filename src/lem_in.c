@@ -27,7 +27,7 @@ int				parse_ant(t_ant **myants, char **line)
 	if (!(ants = (t_ant*)malloc(sizeof(t_ant))))
 		return (0);
 	ft_bzero(ants, sizeof(t_ant));
-	if (!(ants->nb_ant = ft_longatoi(*line))
+	if (!ft_strisdigit(*line) || !(ants->nb_ant = ft_longatoi(*line))
 		|| ft_longatoi(*line) > 2147483647 || ft_longatoi(*line) < 0)
 	{
 		free(ants);
