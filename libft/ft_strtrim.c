@@ -22,11 +22,11 @@ char	*ft_strtrim(char const *s)
 	if (!(s))
 		return (0);
 	len = ft_strlen(s);
-	while ((s[start] == ' ' || s[start] == '\n' || s[start] == '\t') &&
-			start != len)
+	while ((s[start] == ' ' || s[start] == '\n' || s[start] == '\t' ||
+		s[start] == '\r') && start != len)
 		start++;
-	while ((s[len - 1] == ' ' || s[len - 1] == '\n' || s[len - 1] == '\t') &&
-			start != len)
+	while ((s[len - 1] == ' ' || s[len - 1] == '\n' || s[len - 1] == '\t' ||
+		s[len - 1] == '\r') && start != len)
 		len--;
 	str = ft_strsub(s, start, (len - start));
 	return (str);

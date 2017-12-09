@@ -34,14 +34,14 @@ void			add_end_roomstruct(t_room **rooms, t_room **new, char *roomname)
 	ft_strdel(&str);
 }
 
-void			add_start_end(char **tab, t_room **rooms, t_room **new)
+void			add_start_end(char *str, t_room **rooms, t_room **new)
 {
 	t_room		*tmp;
 	t_room		*tmpn;
 
 	tmp = *rooms;
 	tmpn = *new;
-	if (ft_strcmp(tab[0], "##start") == 0)
+	if (ft_strcmp(str, "##start") == 0)
 	{
 		while (tmp)
 		{
@@ -51,7 +51,7 @@ void			add_start_end(char **tab, t_room **rooms, t_room **new)
 		tmp = *rooms;
 		tmpn->start = 1;
 	}
-	else if (ft_strcmp(tab[0], "##end") == 0)
+	else if (ft_strcmp(str, "##end") == 0)
 	{
 		while (tmp)
 		{
@@ -60,6 +60,7 @@ void			add_start_end(char **tab, t_room **rooms, t_room **new)
 		}
 		tmpn->end = 1;
 	}
+	ft_strdel(&str);
 }
 
 int				check_rooms(char **tab, t_room **rooms, char **line)
@@ -71,7 +72,7 @@ int				check_rooms(char **tab, t_room **rooms, char **line)
 	ft_bzero(new, sizeof(t_room));
 	while (tab[0] && tab[0][0] == '#')
 	{
-		add_start_end(tab, rooms, &new);
+		add_start_end(ft_strtrim(tab[0]), rooms, &new);
 		clean_tab(tab);
 		if (!launch_gnl(line, 0))
 		{

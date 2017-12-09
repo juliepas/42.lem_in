@@ -20,17 +20,17 @@ int				add_end_tubestruct(t_tube **tubes, t_room **rooms,
 	t_room		*tmp2;
 	t_tube		*tmpt;
 
-	if (!(new = (t_tube*)malloc(sizeof(t_tube))))
-		return (0);
 	tmpt = *tubes;
 	tmp1 = find_room(rooms, salle1);
 	tmp2 = find_room(rooms, salle2);
-	new->weight = 0;
 	if (!tmp1 || !tmp2)
 	{
-		free(new);
+		ft_strdel(&salle2);
 		return (0);
 	}
+	if (!(new = (t_tube*)malloc(sizeof(t_tube))))
+		return (0);
+	new->weight = 0;
 	new->roomprev = tmp1;
 	new->roomnext = tmp2;
 	if (tmpt != NULL)
@@ -38,6 +38,7 @@ int				add_end_tubestruct(t_tube **tubes, t_room **rooms,
 	else
 		new->next = NULL;
 	*tubes = new;
+	ft_strdel(&salle2);
 	return (1);
 }
 
@@ -56,7 +57,7 @@ void			parse_tubes(t_tube **tubes, t_room **rooms, char **line)
 			parse_tubes(tubes, rooms, line);
 		else if (tab[1] != NULL && tab[2] == NULL)
 		{
-			if (!(add_end_tubestruct(tubes, rooms, tab[0], tab[1])))
+			if (!(add_end_tubestruct(tubes, rooms, tab[0], ft_strtrim(tab[1]))))
 			{
 				clean_tab(tab);
 				return ;

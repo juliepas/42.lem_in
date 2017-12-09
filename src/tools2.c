@@ -17,6 +17,8 @@ int				ft_strisdigit(char *str)
 	int i;
 
 	i = 0;
+	if (str[0] == '-')
+		i = 1;
 	while (str[i] && str[i] > 33)
 	{
 		if (str[i] < 48 || str[i] > 57)
@@ -65,20 +67,22 @@ int				clean(char **tab, t_room *new)
 	return (0);
 }
 
-void			error_manager(int error)
+int				ft_antisdigit(char *str)
 {
-	ft_putchar('\n');
-	if (error == 1)
+	int i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
 	{
-		ft_putstr_fd("Error 1 : Not enough elements to ", 2);
-		ft_putstr_fd("resolve your lem_in\n", 2);
+		if ((str[i] < 48 || str[i] > 57) && str[i] >= 33)
+			return (0);
+		if (str[i - 1] > 48 && str[i - 1] < 57 && str[i] < 33)
+			j = 1;
+		if (str[i] > 48 && str[i] < 57 && j == 1)
+			return (0);
+		i++;
 	}
-	if (error == 2)
-		ft_putstr_fd("Error 2 : No ant or too many. Sorry !\n", 2);
-	if (error == 3)
-		ft_putstr_fd("Error 3 : This room can't exists\n", 2);
-	if (error == 4)
-		ft_putstr_fd("Error 4 : There is no start room\n", 2);
-	if (error == 5)
-		ft_putstr_fd("Error 5 : There is no end room\n", 2);
+	return (1);
 }

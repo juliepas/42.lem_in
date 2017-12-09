@@ -64,5 +64,6 @@ int						launch_gnl(char **line, int i);
 int						check_start_end(t_room **room);
 void					kill_ants(t_ant **ants);
 int						clean(char **tab, t_room *room);
+int						ft_antisdigit(char *str);
 
 #endif

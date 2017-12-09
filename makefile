@@ -33,6 +33,7 @@ SRC_NAME =	$(SRCS_PATH)lem_in.c \
 			$(SRCS_PATH)tools.c \
 			$(SRCS_PATH)tools2.c \
 			$(SRCS_PATH)cleaner.c \
+			$(SRCS_PATH)error_manager.c \
 
 
 LIB				= libft/libft.a
